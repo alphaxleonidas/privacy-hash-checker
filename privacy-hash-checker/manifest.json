@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Privacy Hash Checker",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Check file hashes with VirusTotal - no file uploads, no telemetry",
   "permissions": [
     "contextMenus",
