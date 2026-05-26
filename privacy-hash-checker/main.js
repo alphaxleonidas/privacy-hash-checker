@@ -139,6 +139,19 @@ document.getElementById('checkHash').addEventListener('click', async () => {
   }
 });
 
+// Clear history
+document.getElementById('clearHistory').addEventListener('click', () => {
+  recentScans = [];
+  browser.storage.local.set({ recentScans: [] }).then(() => {
+    updateRecentScans();
+    showStatus('keyStatus', '🗑️ History cleared successfully', 'success');
+    setTimeout(() => {
+      const statusDiv = document.getElementById('keyStatus');
+      statusDiv.style.display = 'none';
+    }, 3000);
+  });
+});
+
 // Compute SHA-256 hash
 async function computeHash(arrayBuffer) {
   const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
@@ -260,7 +273,7 @@ function showStatus(elementId, message, type) {
 function addToRecentScans(name, hash, status) {
   const scan = {
     name: name.length > 40 ? name.substring(0, 37) + '...' : name,
-    hash: hash.substring(0, 16) + '...',
+    hash: hash.substring,
     fullHash: hash,
     status: status,
     timestamp: new Date().toLocaleTimeString()
