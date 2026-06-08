@@ -13,7 +13,7 @@ browser.storage.local.get('vtApiKey').then((result) => {
 browser.browserAction.onClicked.addListener(() => {
   browser.tabs.create({
     url: browser.runtime.getURL("main.html"),
-    active: true
+                      active: true
   });
 });
 
@@ -32,13 +32,13 @@ browser.downloads.onChanged.addListener(async (delta) => {
       const downloads = await browser.downloads.search({ id: delta.id });
       if (downloads.length > 0) {
         const download = downloads[0];
-        
+
         // Open the main tab with auto-scan
         const tab = await browser.tabs.create({
           url: browser.runtime.getURL("main.html"),
-          active: false
+                                              active: false
         });
-        
+
         // Wait for tab to load then send scan request
         setTimeout(() => {
           browser.tabs.sendMessage(tab.id, {
@@ -62,35 +62,25 @@ browser.downloads.onChanged.addListener(async (delta) => {
   }
 });
 
-// Context menu for links
+// Context menu for scanning links directly with VirusTotal
 browser.contextMenus.create({
-  id: "check-file-hash",
-  title: "Check file hash with VirusTotal",
+  id: "check-link-url",
+  title: "Scan this link URL with VirusTotal",
   contexts: ["link"]
 });
 
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId === "check-file-hash" && info.linkUrl) {
-    const mainTab = await browser.tabs.create({
-      url: browser.runtime.getURL("main.html"),
-      active: true
-    });
-    
-    setTimeout(() => {
-      browser.tabs.sendMessage(mainTab.id, {
-        action: 'scanFileUrl',
-        url: info.linkUrl,
-        filename: info.linkUrl.split('/').pop()
-      }).catch(() => {
-        setTimeout(() => {
-          browser.tabs.sendMessage(mainTab.id, {
-            action: 'scanFileUrl',
-            url: info.linkUrl,
-            filename: info.linkUrl.split('/').pop()
-          }).catch(console.error);
-        }, 500);
-      });
-    }, 500);
+  if (info.menuItemId === "check-link-url" && info.linkUrl) {
+    try {
+      const url = new URL(info.linkUrl);
+      const domain = url.hostname;
+      const cleanDomain = domain.replace(/^www\./, '');
+      const vtSearchUrl = `https://www.virustotal.com/gui/search/${cleanDomain}`;
+
+      await browser.tabs.create({ url: vtSearchUrl, active: true });
+    } catch(e) {
+      console.error("Invalid URL:", info.linkUrl);
+    }
   }
 });
 
