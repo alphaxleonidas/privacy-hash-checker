@@ -62,35 +62,38 @@ browser.downloads.onChanged.addListener(async (delta) => {
   }
 });
 
-// Context menu for links
+// Context menu for scanning links directly with VirusTotal
 browser.contextMenus.create({
-  id: "check-file-hash",
-  title: "Check file hash with VirusTotal",
+  id: "check-link-url",
+  title: "Scan this link URL with VirusTotal",
   contexts: ["link"]
 });
 
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId === "check-file-hash" && info.linkUrl) {
-    const mainTab = await browser.tabs.create({
-      url: browser.runtime.getURL("main.html"),
+  if (info.menuItemId === "check-link-url" && info.linkUrl) {
+    // Clean the URL: remove protocol (https://, http://, etc.)
+    let cleanUrl = info.linkUrl;
+    
+    // Remove protocol
+    cleanUrl = cleanUrl.replace(/^https?:\/\//i, '');
+    cleanUrl = cleanUrl.replace(/^ftp:\/\//i, '');
+    cleanUrl = cleanUrl.replace(/^file:\/\//i, '');
+    
+    // Remove trailing slashes
+    cleanUrl = cleanUrl.replace(/\/$/, '');
+    
+    // Remove www. if present (optional - VirusTotal handles it either way)
+    // cleanUrl = cleanUrl.replace(/^www\./, '');
+    
+    // Encode only special characters (spaces, etc.) but not slashes
+    const encodedUrl = encodeURIComponent(cleanUrl);
+    const vtSearchUrl = `https://www.virustotal.com/gui/search/${encodedUrl}`;
+    
+    // Open the VirusTotal search page directly
+    await browser.tabs.create({
+      url: vtSearchUrl,
       active: true
     });
-    
-    setTimeout(() => {
-      browser.tabs.sendMessage(mainTab.id, {
-        action: 'scanFileUrl',
-        url: info.linkUrl,
-        filename: info.linkUrl.split('/').pop()
-      }).catch(() => {
-        setTimeout(() => {
-          browser.tabs.sendMessage(mainTab.id, {
-            action: 'scanFileUrl',
-            url: info.linkUrl,
-            filename: info.linkUrl.split('/').pop()
-          }).catch(console.error);
-        }, 500);
-      });
-    }, 500);
   }
 });
 
