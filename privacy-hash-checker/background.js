@@ -62,7 +62,7 @@ browser.downloads.onChanged.addListener(async (delta) => {
   }
 });
 
-// Context menu for scanning links directly with VirusTotal
+// Context menu for scanning full URL with VirusTotal
 browser.contextMenus.create({
   id: "check-link-url",
   title: "Scan this link URL with VirusTotal",
@@ -71,16 +71,13 @@ browser.contextMenus.create({
 
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === "check-link-url" && info.linkUrl) {
-    try {
-      const url = new URL(info.linkUrl);
-      const domain = url.hostname;
-      const cleanDomain = domain.replace(/^www\./, '');
-      const vtSearchUrl = `https://www.virustotal.com/gui/search/${cleanDomain}`;
-
-      await browser.tabs.create({ url: vtSearchUrl, active: true });
-    } catch(e) {
-      console.error("Invalid URL:", info.linkUrl);
-    }
+    const encodedUrl = encodeURIComponent(info.linkUrl);
+    const vtSearchUrl = `https://www.virustotal.com/gui/search?query=${encodedUrl}`;
+    
+    await browser.tabs.create({
+      url: vtSearchUrl,
+      active: true
+    });
   }
 });
 
