@@ -1,9 +1,9 @@
 # privacy-hash-checker
 Check the filehash in VirusTotal database. Firefox extension. ** NO FILE UPLOAD **
 
-For local installation: 
+# For local installation: 
 
-Firefox:
+## Firefox:
 
 Clone the repo 
 ```
@@ -17,7 +17,7 @@ Then navigate to the downloaded repo and select `manifest.json` from it.
 
 It should work **temporarily**.
 
-Chromium:
+## Chromium:
 
 Clone the chromium branch of repo:
 
