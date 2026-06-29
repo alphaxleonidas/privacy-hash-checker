@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Privacy Hash Checker",
-  "version": "2.0",
+  "version": "4.0.1",
   "description": "Auto‑scan downloads by hash – opens VT page in new tab (Android).",
   "icons": {
     "16": "icon.svg",
@@ -26,7 +26,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "privacyhashchecker@android.example",
+      "id": "privacyhashchecker@android",
       "strict_min_version": "68.0"
     }
   }
