@@ -32,6 +32,23 @@ Click `Load unpacked` and select the whole folder contaning all the extension fi
 
 It should work permanently.
 
+## Android [Firefox]
+
+
+
+Open Firefox on Android. Open Settings > About Firefox. Click on the Firefox logo 5 times > Enables Debug menu. 
+
+Go to a new tab. Open `about:config`. 
+
+Search `xpinstall.signatures.required` and toggle it to false. 
+
+Go to settings page. Scroll down to `Secret Settings`. Enable `Keep Debug Menu revealed`.
+
+Go back to settings page. Scroll down and select `Install Extension from file`. Select `privacy-hash-checker-android.xpi`. 
+
+Now the extension should work permanently.
+
+
 # Rough Work
 
 [hidden](https://www.virustotal.com/gui/search?query=https%3A%2F%2Fhttps://www.deviantart.com%2Fmaciedevis%2Fcommission%2FFULL-BODY-1713765)
