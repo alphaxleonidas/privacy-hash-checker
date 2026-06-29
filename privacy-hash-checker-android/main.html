@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Hash Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔒 Privacy Hash Checker</h1>
+      <p>Only hashes are sent – files never leave your device</p>
+    </div>
+
+    <div class="card">
+      <h2>🔑 VirusTotal API Key</h2>
+      <input type="password" id="apiKey" placeholder="Enter your API key">
+      <button id="saveKey">Save Key</button>
+      <div id="apiStatus" class="status"></div>
+    </div>
+
+    <div class="card">
+      <h2>📁 Upload & Scan</h2>
+      <input type="file" id="fileInput">
+      <button id="scanFile">🔍 Scan File</button>
+      <div id="uploadStatus" class="status"></div>
+      <div id="uploadHash" class="hash-display" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <h2>🔗 Manual Hash Lookup</h2>
+      <input type="text" id="hashInput" placeholder="Paste SHA‑256 hash">
+      <button id="checkHash">Check Hash</button>
+      <div id="hashStatus" class="status"></div>
+    </div>
+
+    <div class="card">
+      <h2>📜 Scan History</h2>
+      <button id="clearHistory" class="small">Clear</button>
+      <div id="historyList"><div class="empty">No scans yet</div></div>
+    </div>
+
+    <div class="card">
+      <h2>📌 About</h2>
+      <p>Every completed download automatically opens this dashboard.<br>
+      If the file is small enough, its hash is computed and the VirusTotal result page opens in a new tab.<br>
+      <strong>No API key is needed for auto‑scanning.</strong></p>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
