@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Privacy Hash Checker",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Auto‑scan downloads by hash – opens VT page in new tab (Android).",
   "icons": {
     "16": "icon.svg",
