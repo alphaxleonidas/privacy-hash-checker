@@ -19,7 +19,7 @@ It should work **temporarily**.
 
 ## Chromium:
 
-Clone the chromium branch of repo:
+Clone the Chromium branch of repo:
 
 ```
 git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chromium
@@ -34,7 +34,12 @@ It should work permanently.
 
 ## Android [Firefox]
 
+Clone the Android branch of repo:
 
+```
+git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b android
+```
+Or just download the .xpi from the releases section.
 
 Open Firefox on Android. Open Settings > About Firefox. Click on the Firefox logo 5 times > Enables Debug menu. 
 
