@@ -1,11 +1,12 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: #f5f7fa;   /* ← explicitly set, full page */
+  /* 🎨 Colorful Gradient Background */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   margin: 0;
   padding: 16px;
   color: #1e293b;
   min-width: 320px;
-  min-height: 100vh;          /* ensures background fills tall screens */
+  min-height: 100vh; /* Ensures the gradient fills the whole screen */
 }
 .container {
   max-width: 600px;
@@ -18,17 +19,19 @@ body {
 .header h1 {
   font-size: 1.5rem;
   margin: 0;
+  /* White text for contrast against the gradient */
+  color: #ffffff;
 }
 .header p {
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
   margin: 4px 0 0;
 }
 .card {
-  background: #fff;
+  background: #ffffff;
   border-radius: 12px;
   padding: 16px 18px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow for depth */
   margin-bottom: 16px;
 }
 .card h2 {
@@ -37,6 +40,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #1e293b;
 }
 input[type="password"],
 input[type="text"],
@@ -48,6 +52,7 @@ input[type="file"] {
   font-size: 0.95rem;
   box-sizing: border-box;
   margin-bottom: 10px;
+  background: #f8fafc;
 }
 button {
   background: #2563eb;
@@ -71,6 +76,7 @@ button.small {
   font-size: 0.9rem;
   color: #475569;
   white-space: pre-line;
+  word-break: break-word;
 }
 .hash-display {
   background: #f1f5f9;
@@ -79,6 +85,7 @@ button.small {
   font-family: monospace;
   word-break: break-all;
   margin-top: 8px;
+  font-size: 0.85rem;
 }
 #historyList {
   margin-top: 10px;
@@ -94,9 +101,26 @@ button.small {
   margin-bottom: 6px;
   font-size: 0.85rem;
   border-left: 4px solid #2563eb;
+  word-break: break-all; /* Ensures full hash wraps properly */
 }
 .history-item .h-time {
   color: #64748b;
   font-size: 0.75rem;
   float: right;
+}
+/* Styling for the VirusTotal link */
+.vt-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #2563eb;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  background: #eff6ff;
+  padding: 4px 12px;
+  border-radius: 6px;
+  border: 1px solid #bfdbfe;
+}
+.vt-link:hover {
+  background: #dbeafe;
 }
