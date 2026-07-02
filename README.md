@@ -1,5 +1,5 @@
 # privacy-hash-checker
-Check the filehash in VirusTotal database. Firefox extension. ** NO FILE UPLOAD **
+Check the filehash in VirusTotal database. Firefox + Chrome extension. ** NO FILE UPLOAD **
 
 # For local installation: 
 
@@ -32,26 +32,6 @@ Click `Load unpacked` and select the whole folder contaning all the extension fi
 
 It should work permanently.
 
-## Android [Firefox]
-
-Clone the Android branch of repo:
-
-```
-git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b android
-```
-Or just download the .xpi from the releases section.
-
-Open Firefox on Android. Open Settings > About Firefox. Click on the Firefox logo 5 times > Enables Debug menu. 
-
-Go to a new tab. Open `about:config`. 
-
-Search `xpinstall.signatures.required` and toggle it to false. 
-
-Go to settings page. Scroll down to `Secret Settings`. Enable `Keep Debug Menu revealed`.
-
-Go back to settings page. Scroll down and select `Install Extension from file`. Select `privacy-hash-checker-android.xpi`. 
-
-Now the extension should work permanently.
 
 
 # Rough Work
