@@ -33,6 +33,14 @@ Click `Load unpacked` and select the whole folder contaning all the extension fi
 It should work permanently.
 
 
+# Link Scanning as a Search Engine
+
+  To scan a link via virustotal on the search bar, add this to the list of search engine to your browser: (if on pc, you can create a keyword/shortcut e.g. "v") 
+
+  ```
+https://www.virustotal.com/gui/search?query=%s
+```
+Now you can scan the link using virustotal as a search engine. 
 
 # Rough Work
 
