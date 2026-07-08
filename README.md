@@ -44,6 +44,4 @@ Now you can scan the link using virustotal as a search engine.
 
 # Rough Work
 
-[hidden](https://www.virustotal.com/gui/search?query=https%3A%2F%2Fhttps://www.deviantart.com%2Fmaciedevis%2Fcommission%2FFULL-BODY-1713765)
-
 [test](https://www.github.com/alphaxleonidas)
