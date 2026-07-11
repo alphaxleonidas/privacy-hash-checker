@@ -40,7 +40,7 @@ It should work permanently.
 
 # Link Scanning as a Search Engine
 
-  To scan a link via virustotal on the search bar, add this to the list of search engine to your browser: (if on pc, you can create a keyword/shortcut e.g. "v") 
+  To scan a link via search bar, add this to your browser's search engine in browser settings:
 
   ```
 https://www.virustotal.com/gui/search?query=%s
