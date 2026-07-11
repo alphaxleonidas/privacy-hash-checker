@@ -22,11 +22,18 @@ Clone the Chromium branch of repo:
 ```
 git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chromium
 ```
+
+OR 
+
+Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
+
 Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
 
 Toggle `Developer Mode` on the top right.
 
-Click `Load unpacked` and select the whole folder contaning all the extension files. 
+Click `Load unpacked`  and select the whole folder contaning all the extension files. 
+
+If you downloaded the zip file: 
 
 It should work permanently.
 
