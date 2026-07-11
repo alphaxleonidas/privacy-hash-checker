@@ -1,5 +1,5 @@
 # privacy-hash-checker
-Check the filehash in VirusTotal database. Firefox + Chrome extension. ** NO FILE UPLOAD **
+Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE UPLOAD**
 
 # For local installation: 
 
@@ -9,7 +9,7 @@ Download the xpi or zip version from the [releases](https://github.com/alphaxleo
 
 Go to `about:addons` in your browser URL.
 
-Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Addons from file`.
+Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
 
 Select the xpi or zip file. 
 
