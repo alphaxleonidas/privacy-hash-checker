@@ -5,17 +5,15 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. ** NO FIL
 
 ## Firefox:
 
-Clone the repo 
-```
- git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git
-```
-Open Firefox, and enter this in the URL bar: `about:debugging#/runtime/this-firefox`
+Download the xpi or zip version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
 
-Click `Load temporary Add-on`
+Go to `about:addons` in your browser URL.
 
-Then navigate to the downloaded repo and select `manifest.json` from it.
+Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Addons from file`.
 
-It should work **temporarily**.
+Select the xpi or zip file. 
+
+The extension should work permanently. 
 
 ## Chromium:
 
