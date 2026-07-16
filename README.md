@@ -5,19 +5,19 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 
 ## Firefox:
 
-Download the xpi or zip version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
+- Download the xpi or zip version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
 
-Go to `about:addons` in your browser URL.
+- Go to `about:addons` in your browser URL.
 
-Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
+- Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
 
-Select the xpi or zip file. 
+- Select the xpi or zip file. 
 
-The extension should work permanently. 
+- The extension should work permanently. 
 
 ## Chromium:
 
-Clone the Chromium branch of repo:
+- Clone the Chromium branch of repo:
 
 ```
 git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chromium
@@ -25,17 +25,17 @@ git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chro
 
 OR 
 
-Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
+- Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
 
-Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
+- Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
 
-Toggle `Developer Mode` on the top right.
+- Toggle `Developer Mode` on the top right.
 
-Click `Load unpacked`  and select the whole folder contaning all the extension files. 
+- Click `Load unpacked`  and select the whole folder contaning all the extension files. 
 
-If you downloaded the zip file: 
+- If you downloaded the zip file: 
 
-It should work permanently.
+- It should work permanently.
 
 
 # Link Scanning as a Search Engine
