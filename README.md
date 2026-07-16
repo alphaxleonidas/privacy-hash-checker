@@ -33,8 +33,6 @@ git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chro
 
 - Click `Load unpacked`  and select the whole folder contaning all the extension files. 
 
-- If you downloaded the zip file: 
-
 - It should work permanently.
 
 
