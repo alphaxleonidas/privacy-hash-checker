@@ -5,13 +5,13 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 
 ## Firefox:
 
-- Download the xpi or zip version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
+- Download the xpi version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
 
 - Go to `about:addons` in your browser URL.
 
 - Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
 
-- Select the xpi or zip file. 
+- Select the xpi file. 
 
 - The extension should work permanently. 
 
@@ -23,9 +23,9 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chromium
 ```
 
-OR 
-
-- Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
+  OR 
+  
+  Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
 
 - Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
 
