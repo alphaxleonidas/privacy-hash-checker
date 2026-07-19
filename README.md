@@ -1,6 +1,7 @@
 # privacy-hash-checker
 Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE UPLOAD**
 
+
 # For local installation: 
 
 ## Firefox:
