@@ -9,7 +9,7 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 <p float="left">
   <img
     src="https://addons.mozilla.org/user-media/previews/thumbs/372/372080.jpg?modified=1778611330"
-    height="500"
+    height="700"
   />
   <img
     src="https://addons.mozilla.org/user-media/previews/thumbs/372/372081.jpg?modified=1778611330"
