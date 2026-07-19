@@ -2,6 +2,22 @@
 Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE UPLOAD**
 
 
+
+
+
+
+<p float="left">
+  <img
+    src="https://addons.mozilla.org/user-media/previews/thumbs/372/372080.jpg?modified=1778611330"
+    height="300"
+  />
+  <img
+    src="https://addons.mozilla.org/user-media/previews/thumbs/372/372081.jpg?modified=1778611330"
+    height="300"
+  />
+</p>
+
+
 # For local installation: 
 
 ## Firefox:
