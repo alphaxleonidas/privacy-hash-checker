@@ -1,41 +1,66 @@
 # privacy-hash-checker
 Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE UPLOAD**
 
+
+## Features
+- Autoscans downloaded files.
+- Opens a new tab with the virustotal result.
+- Does not upload the file to VirusTotal Database. Personal Documents stay protected.
+
+
+
+<p float="left">
+  <img
+    src="https://addons.mozilla.org/user-media/previews/thumbs/372/372080.jpg?modified=1778611330"
+    height="700"
+  />
+  <img
+    src="https://addons.mozilla.org/user-media/previews/thumbs/372/372081.jpg?modified=1778611330"
+    height="150"
+  />
+</p>
+
+## Download and Install 
+
+<a href="https://addons.mozilla.org/en-US/firefox/addon/privacy-hash-checker/"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt='Get the Extension on Firefox' height="75"></a>
+
+<!--  
+<a href="https://chrome.google.com/webstore/detail/i-still-dont-care-about-c/edibdbjcniadpccecjdfdjjppcpchdlm"><img src="https://developer.chrome.com/static/docs/webstore/branding/image/HRs9MPufa1J1h5glNhut.png" alt="Get the Extension on Chrome" height="75" style="border: 1px solid transparent; border-radius:6px;"></a> 
+-->
+
 # For local installation: 
 
 ## Firefox:
 
-Download the xpi or zip version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
+- Download the xpi version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases).
 
-Go to `about:addons` in your browser URL.
+- Go to `about:addons` in your browser URL.
 
-Click on the gear icon <img width="39" height="36" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
+- Click on the gear icon <img width="25" height="25" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
 
-Select the xpi or zip file. 
+- Select the xpi file. 
 
-The extension should work permanently. 
+- The extension should work permanently. 
 
 ## Chromium:
 
-Clone the Chromium branch of repo:
+- Clone the Chromium branch of repo:
 
 ```
 git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chromium
 ```
 
-OR 
+  OR 
+  
+- Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and `Extract` it.
 
-Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
+- Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
 
-Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
+- Toggle `Developer Mode` on the top right.
 
-Toggle `Developer Mode` on the top right.
+- Click `Load unpacked`  and select the whole folder contaning all the extension files. 
 
-Click `Load unpacked`  and select the whole folder contaning all the extension files. 
-
-If you downloaded the zip file: 
-
-It should work permanently.
+- It should work permanently.
 
 
 # Link Scanning as a Search Engine
@@ -46,6 +71,9 @@ It should work permanently.
 https://www.virustotal.com/gui/search?query=%s
 ```
 Now you can scan the link using virustotal as a search engine. 
+
+# Issues
+- Autoscan only works for small files. May need to manually drag and drop the file to `Upload & Scan File`.
 
 # Rough Work
 
