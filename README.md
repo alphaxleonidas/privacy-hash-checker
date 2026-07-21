@@ -2,7 +2,11 @@
 Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE UPLOAD**
 
 
-
+## Features
+- Autoscans downloaded files.
+- Opens a new tab with the virustotal result.
+- Does not upload the file to VirusTotal Database. Personal Documents stay protected.
+- 
 
 
 
@@ -20,7 +24,7 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 ## Download and Install 
 
 <a href="https://addons.mozilla.org/en-US/firefox/addon/privacy-hash-checker/"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt='Get the Extension on Firefox' height="75"></a>
-<!-- This is a comment and will not be shown -->
+
 <!--  
 <a href="https://chrome.google.com/webstore/detail/i-still-dont-care-about-c/edibdbjcniadpccecjdfdjjppcpchdlm"><img src="https://developer.chrome.com/static/docs/webstore/branding/image/HRs9MPufa1J1h5glNhut.png" alt="Get the Extension on Chrome" height="75" style="border: 1px solid transparent; border-radius:6px;"></a> 
 -->
@@ -49,7 +53,7 @@ git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chro
 
   OR 
   
-  Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and Extract it.
+  Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and `Extract` it.
 
 - Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
 
