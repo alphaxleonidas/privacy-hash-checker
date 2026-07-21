@@ -33,7 +33,7 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 
 - Go to `about:addons` in your browser URL.
 
-- Click on the gear icon <img width="25" height="25" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" />  and choose ` Install Add-on from file`.
+- Click on the gear icon` <img width="25" height="25" alt="image" src="https://github.com/user-attachments/assets/ca42ecea-0f72-48e5-b96a-0010135f8f63" /> ` and choose ` Install Add-on from file`.
 
 - Select the xpi file. 
 
