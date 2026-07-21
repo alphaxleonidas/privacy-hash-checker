@@ -6,7 +6,6 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 - Autoscans downloaded files.
 - Opens a new tab with the virustotal result.
 - Does not upload the file to VirusTotal Database. Personal Documents stay protected.
-- 
 
 
 
@@ -53,7 +52,7 @@ git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chro
 
   OR 
   
-  Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and `Extract` it.
+- Download the Chromium version from the [releases](https://github.com/alphaxleonidas/privacy-hash-checker/releases) and `Extract` it.
 
 - Open your Chromium based browser, and enter this in the URL bar: `chrome://extensions`
 
@@ -72,6 +71,9 @@ git clone https://www.github.com/alphaxleonidas/privacy-hash-checker.git -b chro
 https://www.virustotal.com/gui/search?query=%s
 ```
 Now you can scan the link using virustotal as a search engine. 
+
+# Issues
+- Autoscan only works for small files. May need to manually drag and drop the file to `Upload & Scan File`.
 
 # Rough Work
 
