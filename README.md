@@ -12,6 +12,7 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 
 <a href="https://addons.mozilla.org/en-US/firefox/addon/privacy-hash-checker/"><img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt='Get the Extension on Firefox' height="75"></a>
 
+## Screenshots
 
 <p float="left">
   <img
@@ -28,7 +29,7 @@ Check the filehash in VirusTotal database. Firefox + Chrome extension. **NO FILE
 <a href="https://chrome.google.com/webstore/detail/i-still-dont-care-about-c/edibdbjcniadpccecjdfdjjppcpchdlm"><img src="https://developer.chrome.com/static/docs/webstore/branding/image/HRs9MPufa1J1h5glNhut.png" alt="Get the Extension on Chrome" height="75" style="border: 1px solid transparent; border-radius:6px;"></a> 
 -->
 
-# For local installation: 
+# Local installation: 
 
 ## Firefox:
 
