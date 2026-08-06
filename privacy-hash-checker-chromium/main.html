@@ -1,70 +1,73 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Privacy Hash Checker</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <div class="container">
-            <div class="header">
-                <h1>🔒 Privacy Hash Checker</h1>
-                <p>Only hashes are sent – files never leave your device</p>
-            </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Hash Checker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔒 Privacy Hash Checker</h1>
+      <p>Only hashes are sent – files never leave your computer</p>
+    </div>
 
-            <div class="card">
-                <h2>🔑 VirusTotal API Key</h2>
-                <input
-                    type="password"
-                    id="apiKey"
-                    placeholder="Enter your API key"
-                />
-                <button id="saveKey">Save Key</button>
-                <div id="apiStatus" class="status"></div>
-            </div>
+    <!-- API Key Card -->
+    <div class="card">
+      <h2>🔑 VirusTotal API Key</h2>
+      <input type="password" id="apiKey" placeholder="Enter your API key">
+      <button id="saveKey">Save Key</button>
+      <div id="apiStatus" class="status"></div>
+    </div>
 
-            <div class="card">
-                <h2>📁 Upload & Scan</h2>
-                <input type="file" id="fileInput" />
-                <button id="scanFile">🔍 Scan File</button>
-                <div id="uploadStatus" class="status"></div>
-                <div
-                    id="uploadHash"
-                    class="hash-display"
-                    style="display: none"
-                ></div>
-            </div>
+    <!-- Upload & Scan Card -->
+    <div class="card">
+      <h2>📁 Upload & Scan</h2>
+      <input type="file" id="fileInput">
+      <button id="scanFile">🔍 Scan File</button>
+      <div id="uploadStatus" class="status"></div>
+      <div id="uploadHash" class="hash-display" style="display:none;"></div>
+    </div>
 
-            <div class="card">
-                <h2>🔗 Manual Hash Lookup</h2>
-                <input
-                    type="text"
-                    id="hashInput"
-                    placeholder="Paste SHA-256 hash"
-                />
-                <button id="checkHash">Check Hash</button>
-                <div id="hashStatus" class="status"></div>
-            </div>
+    <!-- Manual Hash Lookup Card -->
+    <div class="card">
+      <h2>🔗 Manual Hash Lookup</h2>
+      <input type="text" id="hashInput" placeholder="Paste SHA-256 hash">
+      <button id="checkHash">Check Hash</button>
+      <div id="hashStatus" class="status"></div>
+    </div>
 
-            <div class="card">
-                <h2>📜 Scan History</h2>
-                <button id="clearHistory" class="small">Clear</button>
-                <div id="historyList">
-                    <div class="empty">No scans yet</div>
-                </div>
-            </div>
+    <!-- History Card -->
+    <div class="card">
+      <h2>📜 Scan History</h2>
+      <button id="clearHistory" class="small">Clear</button>
+      <div id="historyList"><div class="empty">No scans yet</div></div>
+    </div>
 
-            <div class="card">
-                <h2>📌 About</h2>
-                <p>
-                    This extension automatically scans downloaded files by
-                    re‑fetching the original URL.<br />
-                    If the download link expires, you can upload the file
-                    manually above.
-                </p>
-            </div>
-        </div>
-        <script src="main.js"></script>
-    </body>
+    <!-- Preferences Card -->
+    <div class="card">
+      <h2>⚙️ Preferences</h2>
+      <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-bottom: 8px;">
+        <input type="checkbox" id="openNewTabCheckbox" checked>
+        <span>🌐 Open a new tab for each manual scan result</span>
+      </label>
+      <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <input type="checkbox" id="notificationsCheckbox">
+        <span>🔔 Show notifications (downloads, scans, results)</span>
+      </label>
+      <p style="font-size: 12px; color: #666; margin-top: 8px;">
+        Notifications are disabled by default. Enable them here.
+      </p>
+    </div>
+
+    <!-- About Card -->
+    <div class="card">
+      <h2>📌 About</h2>
+      <p>This extension automatically scans downloaded files by re‑fetching the original URL.<br>
+      If the download link expires, you can upload the file manually above.</p>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
 </html>

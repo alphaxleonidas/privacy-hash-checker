@@ -1,10 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Privacy Hash Checker",
-  "version": "4.0",
-  "description": "Check file hashes with VirusTotal – Only hashes sent, files never uploaded",
-  "permissions": ["downloads", "storage", "notifications", "contextMenus"],
-  "host_permissions": ["https://www.virustotal.com/*"],
+  "version": "2.3.2",
+  "description": "Check file hashes with VirusTotal – Only hashes sent, no file uploads",
+  "permissions": [
+    "downloads",
+    "storage",
+    "notifications",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://www.virustotal.com/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
