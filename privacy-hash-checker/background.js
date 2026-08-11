@@ -2,7 +2,7 @@
 console.log("Background loaded (Firefox PC)");
 
 let API_KEY = null;
-let notificationsEnabled = false;   // default off
+let notificationsEnabled = false; // default off
 let pendingDownloads = new Map();
 
 // Load API key
@@ -18,7 +18,6 @@ browser.storage.local.get('notificationsEnabled').then(res => {
   if (res.notificationsEnabled !== undefined) {
     notificationsEnabled = res.notificationsEnabled;
   }
-  // else keep default false
 });
 
 // Helper: compute SHA-256
@@ -81,6 +80,8 @@ browser.downloads.onChanged.addListener(async (delta) => {
 
       if (API_KEY) {
         await checkHash(hash, filename, download.url);
+        // Clear any previous error on success
+        await browser.storage.local.remove('lastError');
       } else {
         throw new Error("No API key set");
       }
@@ -145,7 +146,7 @@ async function checkHash(hash, filename, sourceUrl) {
       }
 
       const history = (await browser.storage.local.get('history')).history || [];
-      history.unshift({ filename, hash, malicious, suspicious, harmless, sourceUrl, vtUrl, time: Date.now() });
+      history.unshift({ filename, hash, malicious, suspicious, harmless, sourceUrl, vtUrl, time: Date.now(), found: true });
       if (history.length > 100) history.pop();
       await browser.storage.local.set({ history });
 
@@ -158,6 +159,11 @@ async function checkHash(hash, filename, sourceUrl) {
           buttons: [{ title: "View Report" }]
         });
       }
+      // Save to history with found: false
+      const history = (await browser.storage.local.get('history')).history || [];
+      history.unshift({ filename, hash, malicious: 0, suspicious: 0, harmless: 0, sourceUrl, vtUrl, time: Date.now(), found: false });
+      if (history.length > 100) history.pop();
+      await browser.storage.local.set({ history });
     } else {
       throw new Error(`HTTP ${response.status}`);
     }
@@ -210,7 +216,6 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (message.action === 'setNotifications') {
     notificationsEnabled = message.enabled;
-    // Also persist to storage (already saved by main page, but we do it here too)
     browser.storage.local.set({ notificationsEnabled: message.enabled });
     sendResponse({ success: true });
     return true;

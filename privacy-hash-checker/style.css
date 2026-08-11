@@ -116,35 +116,8 @@ button:hover { background: #5a67d8; }
 .history-time { font-size: 10px; color: #999; margin-top: 4px; }
 .empty { text-align: center; color: #999; padding: 20px; }
 
-/* Preference checkbox label */
-label[for="openNewTabCheckbox"] {
-  cursor: pointer;
-  user-select: none;
-}
+label { cursor: pointer; user-select: none; }
 
-/* --- APPEALING "Open VirusTotal Page" button-style link --- */
-.vt-link-button {
-  display: inline-block;
-  background: #667eea;
-  color: white !important;
-  padding: 8px 18px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  transition: background 0.2s, transform 0.1s;
-  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
-}
-
-.vt-link-button:hover {
-  background: #5a67d8;
-  text-decoration: none;
-  transform: scale(1.02);
-}
-
-.vt-link-button:active {
-  transform: scale(0.97);
-}
 .vt-link-button {
   display: inline-block;
   background: #667eea;
@@ -158,22 +131,22 @@ label[for="openNewTabCheckbox"] {
   box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
   white-space: nowrap;
 }
-
 .vt-link-button:hover {
   background: #5a67d8;
   text-decoration: none;
   transform: scale(1.02);
 }
+.vt-link-button:active {
+  transform: scale(0.97);
+}
 
 .history-link {
-  background: #667eea;
-  color: white !important;
-  padding: 2px 10px;
-  border-radius: 15px;
-  font-size: 12px !important;
-  transition: background 0.2s;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
 }
 .history-link:hover {
-  background: #5a67d8;
-  text-decoration: none;
+  text-decoration: underline;
 }

@@ -1,4 +1,4 @@
-// Firefox PC version – with inline results, new‑tab toggle, notification toggle, and history links
+// Firefox PC version – with inline results, new‑tab toggle, notification toggle, history link
 let scanHistory = [];
 
 // --- Preference defaults ---
@@ -77,6 +77,9 @@ document.getElementById('saveKey').onclick = async () => {
 
 // Upload & scan
 document.getElementById('scanFile').onclick = async () => {
+  // Clear any previous auto‑scan error before manual scan
+  await browser.storage.local.remove('lastError');
+
   const file = document.getElementById('fileInput').files[0];
   if (!file) {
     showStatus('uploadStatus', 'Select a file first', 'error');
@@ -102,6 +105,9 @@ document.getElementById('scanFile').onclick = async () => {
 
 // Manual hash lookup
 document.getElementById('checkHash').onclick = async () => {
+  // Clear any previous auto‑scan error before manual lookup
+  await browser.storage.local.remove('lastError');
+
   const hash = document.getElementById('hashInput').value.trim().toLowerCase();
   if (!/^[a-f0-9]{64}$/.test(hash)) {
     showStatus('hashStatus', 'Invalid SHA-256 hash', 'error');
@@ -135,6 +141,7 @@ async function checkHash(hash, filename, sourceUrl) {
   let vtResult = { hash, filename, sourceUrl, vtUrl: `https://www.virustotal.com/gui/file/${hash}` };
 
   if (response.status === 200) {
+    vtResult.found = true;
     const data = await response.json();
     const stats = data.data.attributes.last_analysis_stats;
     vtResult.malicious = stats.malicious || 0;
@@ -142,6 +149,7 @@ async function checkHash(hash, filename, sourceUrl) {
     vtResult.harmless = stats.harmless || 0;
     vtResult.undetected = stats.undetected || 0;
   } else if (response.status === 404) {
+    vtResult.found = false;
     vtResult.malicious = 0;
     vtResult.suspicious = 0;
     vtResult.harmless = 0;
@@ -158,6 +166,27 @@ function showDetailedResult(elementId, data) {
   const el = document.getElementById(elementId);
   if (!el) return;
 
+  // --- If hash not found (unscanned) ---
+  if (!data.found) {
+    let html = `
+      <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 6px; color: #856404;">❓ Unscanned file</div>
+      <div style="margin: 8px 0;">
+        This file has not been uploaded to VirusTotal yet.
+        <br>
+        <a href="https://www.virustotal.com/gui/home/upload" target="_blank" class="vt-link-button" style="margin-top: 8px; display: inline-block;">📤 Upload to VirusTotal →</a>
+      </div>
+      <div style="font-size: 13px; background: #e9ecef; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;">
+        <span style="font-size: 16px;">📄</span>
+        <strong style="color: #333;">${escapeHtml(data.filename || 'Unnamed file')}</strong>
+      </div>
+    `;
+    el.innerHTML = html;
+    el.className = 'status warning';
+    el.style.display = 'block';
+    return;
+  }
+
+  // --- Found – normal display ---
   const isMalicious = data.malicious > 0;
   const isSuspicious = data.suspicious > 0;
   const statusClass = isMalicious ? 'error' : (isSuspicious ? 'warning' : 'success');
@@ -213,7 +242,6 @@ async function loadHistory() {
   renderHistory();
 }
 
-// --- RENDER HISTORY with "Results ↗" link on the right ---
 function renderHistory() {
   const container = document.getElementById('historyList');
   if (!scanHistory.length) {
