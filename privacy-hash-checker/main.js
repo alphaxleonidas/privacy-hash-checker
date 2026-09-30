@@ -1,5 +1,6 @@
 // Firefox PC version – with inline results, new‑tab toggle, notification toggle, history link
 let scanHistory = [];
+let disabledSites = [];
 
 // --- Preference defaults ---
 const DEFAULT_OPEN_NEW_TAB = true;
@@ -43,8 +44,7 @@ async function checkForStoredError() {
   if (error && error.filename && error.message) {
     const status = document.getElementById('uploadStatus');
     status.innerHTML = `
-      ⚠️ Auto‑scan failed for "<strong>${escapeHtml(error.filename)}</strong>": ${escapeHtml(error.message)}
-      <br>Please upload the file manually.
+      ⚠️ <strong>${escapeHtml(error.filename)}</strong>: ${escapeHtml(error.message)}
     `;
     status.className = 'status warning';
     status.style.display = 'block';
@@ -281,9 +281,66 @@ document.getElementById('clearHistory').onclick = async () => {
   }
 };
 
+// --- Disabled sites (per-website scan skipping) ---
+async function loadDisabledSites() {
+  const result = await browser.storage.local.get('disabledSites');
+  disabledSites = Array.isArray(result.disabledSites) ? result.disabledSites : [];
+  renderDisabledSites();
+}
+
+function renderDisabledSites() {
+  const container = document.getElementById('disabledSitesList');
+  if (!disabledSites.length) {
+    container.innerHTML = '<div class="empty">No sites disabled</div>';
+    return;
+  }
+  container.innerHTML = disabledSites.map((site, i) => `
+    <div class="disabled-site-item" data-index="${i}">
+      <span class="disabled-site-pattern">${escapeHtml(site)}</span>
+      <button class="small remove-disabled-site" data-index="${i}">✕</button>
+    </div>
+  `).join('');
+}
+
+async function saveDisabledSites() {
+  await browser.storage.local.set({ disabledSites });
+  browser.runtime.sendMessage({ action: 'setDisabledSites', sites: disabledSites });
+}
+
+document.getElementById('addDisabledSite').onclick = async () => {
+  const input = document.getElementById('disabledSiteInput');
+  const value = input.value.trim();
+  if (!value) return;
+  if (disabledSites.includes(value)) {
+    input.value = '';
+    return;
+  }
+  disabledSites.push(value);
+  await saveDisabledSites();
+  renderDisabledSites();
+  input.value = '';
+};
+
+document.getElementById('disabledSiteInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('addDisabledSite').click();
+  }
+});
+
+document.getElementById('disabledSitesList').addEventListener('click', async (e) => {
+  if (!e.target.classList.contains('remove-disabled-site')) return;
+  const idx = parseInt(e.target.dataset.index, 10);
+  if (Number.isNaN(idx)) return;
+  disabledSites.splice(idx, 1);
+  await saveDisabledSites();
+  renderDisabledSites();
+});
+
 async function initPreferences() {
   await loadNewTabPref();
   await loadNotificationPref();
+  await loadDisabledSites();
 }
 
 loadApiKey();

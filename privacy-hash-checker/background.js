@@ -3,6 +3,7 @@ console.log("Background loaded (Firefox PC)");
 
 let API_KEY = null;
 let notificationsEnabled = false; // default off
+let disabledSites = []; // site patterns where scanning is skipped, e.g. "google.com/*"
 let pendingDownloads = new Map();
 
 // Load API key
@@ -20,6 +21,66 @@ browser.storage.local.get('notificationsEnabled').then(res => {
   }
 });
 
+// Load disabled-sites list
+browser.storage.local.get('disabledSites').then(res => {
+  if (Array.isArray(res.disabledSites)) {
+    disabledSites = res.disabledSites;
+    console.log("Disabled sites loaded:", disabledSites);
+  }
+});
+
+// Check whether a URL matches a disabled-site pattern.
+// Only gates automatic download scanning (see downloads.onCreated below) —
+// the "Scan this link" context-menu action always works regardless of
+// this list.
+// Pattern forms:
+//   "google.com/*"    -> matches only the exact host google.com (or www.google.com),
+//                         any path.
+//   "*.google.com/*"  -> matches google.com itself AND any subdomain
+//                         (docs.google.com, mail.google.com, ...).
+//   A trailing path (e.g. "google.com/maps/*") restricts the match to
+//   URLs whose path starts with that prefix.
+// Matching is done on the parsed hostname/path, not a raw string prefix,
+// so "google.com" will never match a lookalike host like
+// "google.com.evil-tracker.net".
+function isUrlDisabled(url) {
+  if (!url || !disabledSites.length) return false;
+  let target;
+  try {
+    target = new URL(url);
+  } catch (e) {
+    return false; // unparseable URL (e.g. blob:, data:) -> never block
+  }
+  const targetHost = target.hostname.replace(/^www\./i, '').toLowerCase();
+  const targetPath = target.pathname;
+
+  return disabledSites.some(pattern => {
+    let p = (pattern || '').trim();
+    if (!p) return false;
+    p = p.replace(/^https?:\/\//i, '');
+
+    const slashIdx = p.indexOf('/');
+    let hostPart = (slashIdx === -1 ? p : p.slice(0, slashIdx)).toLowerCase();
+    let pathPart = slashIdx === -1 ? '' : p.slice(slashIdx);
+    hostPart = hostPart.replace(/^www\./i, '');
+
+    let hostMatches;
+    if (hostPart.startsWith('*.')) {
+      const domain = hostPart.slice(2);
+      hostMatches = targetHost === domain || targetHost.endsWith('.' + domain);
+    } else {
+      hostMatches = targetHost === hostPart;
+    }
+    if (!hostMatches) return false;
+
+    if (!pathPart || pathPart === '/' || pathPart === '/*') return true;
+    const pp = pathPart.endsWith('/*') ? pathPart.slice(0, -2)
+             : pathPart.endsWith('*') ? pathPart.slice(0, -1)
+             : pathPart;
+    return targetPath.startsWith(pp);
+  });
+}
+
 // Helper: compute SHA-256
 async function computeHash(arrayBuffer) {
   const hashBuf = await crypto.subtle.digest('SHA-256', arrayBuffer);
@@ -33,6 +94,10 @@ browser.browserAction.onClicked.addListener(() => {
 
 // Track downloads
 browser.downloads.onCreated.addListener((download) => {
+  if (isUrlDisabled(download.url)) {
+    console.log(`Privacy Hash Checker: site disabled, skipping download → ${download.url}`);
+    return;
+  }
   const filename = download.filename.split('/').pop().split('\\').pop();
   pendingDownloads.set(download.id, { filename, url: download.url });
   if (notificationsEnabled) {
@@ -88,16 +153,17 @@ browser.downloads.onChanged.addListener(async (delta) => {
 
     } catch (error) {
       console.error("Auto‑scan failed:", error);
+      const userMessage = "Unable to autocheck. Please upload file here.";
       if (notificationsEnabled) {
         browser.notifications.create(`error-${delta.id}`, {
           type: "basic",
           title: "⚠️ Auto‑scan failed",
-          message: `${filename}\n${error.message}\n\nOpen extension to upload manually.`
+          message: `${filename}\n${userMessage}`
         });
       }
-      // Store error for dashboard
+      // Store error for dashboard (user-facing message only; full error is in console)
       await browser.storage.local.set({
-        lastError: { filename, message: error.message, timestamp: Date.now() }
+        lastError: { filename, message: userMessage, timestamp: Date.now() }
       });
     }
 
@@ -217,6 +283,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'setNotifications') {
     notificationsEnabled = message.enabled;
     browser.storage.local.set({ notificationsEnabled: message.enabled });
+    sendResponse({ success: true });
+    return true;
+  }
+  if (message.action === 'setDisabledSites') {
+    disabledSites = Array.isArray(message.sites) ? message.sites : [];
+    browser.storage.local.set({ disabledSites });
     sendResponse({ success: true });
     return true;
   }

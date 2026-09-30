@@ -118,6 +118,32 @@ button:hover { background: #5a67d8; }
 
 label { cursor: pointer; user-select: none; }
 
+.disabled-site-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  background: #f8f9fa;
+}
+.disabled-site-pattern {
+  font-family: monospace;
+  font-size: 13px;
+  color: #333;
+  word-break: break-all;
+}
+.disabled-site-item .remove-disabled-site {
+  width: auto;
+  padding: 2px 10px;
+  font-size: 13px;
+  background: #dc3545;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+.disabled-site-item .remove-disabled-site:hover { background: #c82333; }
+
 .vt-link-button {
   display: inline-block;
   background: #667eea;
