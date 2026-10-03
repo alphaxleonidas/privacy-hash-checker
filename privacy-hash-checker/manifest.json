@@ -1,13 +1,14 @@
 {
   "manifest_version": 2,
   "name": "Privacy Hash Checker",
-  "version": "2.3.3",
+  "version": "2.3.5",
   "description": "Check file hashes with VirusTotal \u2013 Only hashes sent, no file uploads",
   "permissions": [
     "downloads",
     "storage",
     "notifications",
     "contextMenus",
+    "activeTab",
     "https://www.virustotal.com/*"
   ],
   "background": {
@@ -25,7 +26,10 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "{1b46822f-ab4b-46d3-a53b-e8a8542ebfec}"
+      "id": "{1b46822f-ab4b-46d3-a53b-e8a8542ebfec}",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }

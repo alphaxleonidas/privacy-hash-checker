@@ -4,6 +4,7 @@ console.log("Background loaded (Firefox PC)");
 let API_KEY = null;
 let notificationsEnabled = false; // default off
 let disabledSites = []; // site patterns where scanning is skipped, e.g. "google.com/*"
+let scanLinksInPage = true; // default ON: context-menu link scans show results on the page
 let pendingDownloads = new Map();
 
 // Load API key
@@ -26,6 +27,13 @@ browser.storage.local.get('disabledSites').then(res => {
   if (Array.isArray(res.disabledSites)) {
     disabledSites = res.disabledSites;
     console.log("Disabled sites loaded:", disabledSites);
+  }
+});
+
+// Load in-page link-scan preference (default true)
+browser.storage.local.get('scanLinksInPage').then(res => {
+  if (res.scanLinksInPage !== undefined) {
+    scanLinksInPage = res.scanLinksInPage;
   }
 });
 
@@ -260,13 +268,123 @@ browser.contextMenus.create({
   contexts: ["link"]
 });
 
-browser.contextMenus.onClicked.addListener(async (info) => {
+browser.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "scan-link-url" && info.linkUrl) {
-    const encodedUrl = encodeURIComponent(info.linkUrl);
-    const vtSearchUrl = `https://www.virustotal.com/gui/search?query=${encodedUrl}`;
-    browser.tabs.create({ url: vtSearchUrl, active: true });
+    handleLinkScan(info, tab);
   }
 });
+
+function openVtSearchTab(linkUrl) {
+  const vtSearchUrl = `https://www.virustotal.com/gui/search?query=${encodeURIComponent(linkUrl)}`;
+  browser.tabs.create({ url: vtSearchUrl, active: true });
+}
+
+// Calls VirusTotal's URL-scan API: submit the URL, then poll the analysis
+// until it completes. Mirrors the hash-lookup flow used elsewhere in this
+// file, but for URLs instead of file hashes.
+async function scanUrlWithVT(url) {
+  const submitRes = await fetch('https://www.virustotal.com/api/v3/urls', {
+    method: 'POST',
+    headers: {
+      'x-apikey': API_KEY,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: `url=${encodeURIComponent(url)}`
+  });
+  if (!submitRes.ok) throw new Error(`VirusTotal submit failed (${submitRes.status})`);
+  const submitData = await submitRes.json();
+  const analysisId = submitData && submitData.data && submitData.data.id;
+  if (!analysisId) throw new Error('No analysis id returned from VirusTotal');
+
+  let stats = null;
+  for (let i = 0; i < 6; i++) {
+    await new Promise(r => setTimeout(r, 3000));
+    const analysisRes = await fetch(`https://www.virustotal.com/api/v3/analyses/${analysisId}`, {
+      headers: { 'x-apikey': API_KEY }
+    });
+    if (!analysisRes.ok) throw new Error(`VirusTotal analysis check failed (${analysisRes.status})`);
+    const analysisData = await analysisRes.json();
+    if (analysisData?.data?.attributes?.status === 'completed') {
+      stats = analysisData.data.attributes.stats || {};
+      break;
+    }
+  }
+  if (!stats) throw new Error('VirusTotal analysis timed out');
+
+  return {
+    malicious: stats.malicious || 0,
+    suspicious: stats.suspicious || 0,
+    harmless: stats.harmless || 0,
+    undetected: stats.undetected || 0
+  };
+}
+
+async function handleLinkScan(info, tab) {
+  const linkUrl = info.linkUrl;
+
+  // Preference off, or no usable tab (e.g. invoked in a context without
+  // one) -> keep the original behavior exactly as before.
+  if (!scanLinksInPage || !tab || tab.id === undefined) {
+    openVtSearchTab(linkUrl);
+    return;
+  }
+
+  const requestId = `vt-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const execOpts = { file: 'in-page-scanner.js' };
+  if (info.frameId !== undefined) execOpts.frameId = info.frameId;
+
+  try {
+    await browser.tabs.executeScript(tab.id, execOpts);
+  } catch (err) {
+    // Most common cause: the link sits inside a cross-origin iframe, where
+    // activeTab does not extend without an explicit host permission.
+    // Fall back to the pre-existing new-tab behavior rather than fail silently.
+    console.log('Privacy Hash Checker: in-page scan UI could not be injected, falling back to new tab:', err);
+    openVtSearchTab(linkUrl);
+    return;
+  }
+
+  const sendOpts = info.frameId !== undefined ? { frameId: info.frameId } : undefined;
+
+  try {
+    await browser.tabs.sendMessage(tab.id, { type: 'vtScanStart', requestId, url: linkUrl }, sendOpts);
+  } catch (err) {
+    console.log('Privacy Hash Checker: could not reach injected scan UI, falling back to new tab:', err);
+    openVtSearchTab(linkUrl);
+    return;
+  }
+
+  if (!API_KEY) {
+    try {
+      await browser.tabs.sendMessage(tab.id, {
+        type: 'vtScanError', requestId, url: linkUrl,
+        message: 'No VirusTotal API key set. Open the extension to add one.'
+      }, sendOpts);
+    } catch (err) {
+      // Page may have navigated away mid-scan; nothing more we can do.
+      console.log('Privacy Hash Checker: could not deliver no-API-key message:', err);
+    }
+    return;
+  }
+
+  const vtSearchUrl = `https://www.virustotal.com/gui/search?query=${encodeURIComponent(linkUrl)}`;
+  try {
+    const verdict = await scanUrlWithVT(linkUrl);
+    await browser.tabs.sendMessage(tab.id, {
+      type: 'vtScanResult', requestId, url: linkUrl, verdict, vtUrl: vtSearchUrl
+    }, sendOpts);
+  } catch (err) {
+    console.error('Privacy Hash Checker: link scan failed:', err);
+    try {
+      await browser.tabs.sendMessage(tab.id, {
+        type: 'vtScanError', requestId, url: linkUrl, message: err.message || 'Scan failed'
+      }, sendOpts);
+    } catch (sendErr) {
+      // Page may have navigated away mid-scan; nothing more we can do.
+      console.log('Privacy Hash Checker: could not deliver scan-error message:', sendErr);
+    }
+  }
+}
 
 // API key management & notification preference updates
 browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -289,6 +407,12 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'setDisabledSites') {
     disabledSites = Array.isArray(message.sites) ? message.sites : [];
     browser.storage.local.set({ disabledSites });
+    sendResponse({ success: true });
+    return true;
+  }
+  if (message.action === 'setScanLinksInPage') {
+    scanLinksInPage = !!message.enabled;
+    browser.storage.local.set({ scanLinksInPage });
     sendResponse({ success: true });
     return true;
   }
